@@ -12,6 +12,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     }
 
+    @Override
     public void createUsersTable() {
         try (Connection connection = Util.getConnection();
              Statement statement = connection.createStatement()) {
@@ -27,6 +28,7 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
 
+    @Override
     public void dropUsersTable() {
         try (Connection connection = Util.getConnection();
              Statement statement = connection.createStatement()) {
@@ -37,13 +39,14 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
 //    // Вариант №1
+//    @Override
 //    public void saveUser(String name, String lastName, byte age) {
 //        try (Connection connection = Util.getConnection();
 //             Statement statement = connection.createStatement()) {
-//            statement.executeUpdate("INSERT INTO users (name, lastName, age) VALUES (\'" +
-//                    name + "\', \'" +
-//                    lastName + "\', " +
-//                    (byte) age + ")");
+//            statement.executeUpdate("INSERT INTO users (name, lastName, age) VALUES ('" +
+//                    name + "', '" +
+//                    lastName + "', " +
+//                    age + ")");
 //            System.out.println("User с именем – " + name + " добавлен в базу данных");
 //        } catch (SQLException e) {
 //            throw new RuntimeException(e);
@@ -51,6 +54,7 @@ public class UserDaoJDBCImpl implements UserDao {
 //    }
 
     // Вариант 2
+    @Override
     public void saveUser(String name, String lastName, byte age) {
         try (Connection connection = Util.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
@@ -66,6 +70,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
 //    // Вариант №1
+//    @Override
 //    public void removeUserById(long id) {
 //        try (Connection connection = Util.getConnection();
 //             Statement statement = connection.createStatement()) {
@@ -76,6 +81,7 @@ public class UserDaoJDBCImpl implements UserDao {
 //    }
 
     // Вариант №2
+    @Override
     public void removeUserById(long id) {
         try (Connection connection = Util.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE id = ?")) {
@@ -86,6 +92,7 @@ public class UserDaoJDBCImpl implements UserDao {
         }
     }
 
+    @Override
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
         try (Connection connection = Util.getConnection();
@@ -105,6 +112,7 @@ public class UserDaoJDBCImpl implements UserDao {
         return userList;
     }
 
+    @Override
     public void cleanUsersTable() {
         try (Connection connection = Util.getConnection();
              Statement statement = connection.createStatement()) {
