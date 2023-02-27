@@ -113,20 +113,25 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = Util.getSessionFactory().openSession();
             session.beginTransaction();
-// Такой вариант некорректно работает и я его убрал
+//// Это первый вариант и он некорректно работает и я его убрал
 //            User userDelete = session.load(User.class, id);;
 //            if (userDelete != null) {
 //                session.delete(userDelete);
 //            } else {
 //                System.out.println("Нет пользователя для удаления с id=" + id + "!");
 //            }
-// Это рабочий вариант
-            User userDelete = session.get(User.class, id);;
-            if (userDelete != null) {
-                session.remove(userDelete);
-            } else {
-                System.out.println("Нет пользователя для удаления с id=" + id + "!");
-            }
+//// Это второй рабочий вариант
+//            User userDelete = session.get(User.class, id);;
+//            if (userDelete != null) {
+////                session.remove(userDelete);
+//                session.delete(userDelete);
+//            } else {
+//                System.out.println("Нет пользователя для удаления с id=" + id + "!");
+//            }
+// Это третий рабочий вариант
+            String hql = "DELETE User WHERE id=";
+            Query query = session.createQuery(hql + id);
+            query.executeUpdate();
             session.getTransaction().commit();
 //            System.out.println("User с id – " + id + " удален из базы данных");
         } catch (Exception e) {
