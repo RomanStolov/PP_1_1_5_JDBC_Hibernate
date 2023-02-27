@@ -30,10 +30,10 @@ public class Util {
 // "create" - Пересоздание: Hibernate удалит все таблицы в базе и создаст их заново на основе данных из аннотаций.
 // "create-drop" - Создание-удаление. В начале работы Hibernate создаст все таблицы, в конце работы – удалит их за собой.
 // "none" - Hibernate вообще ничего не будет делать. Если база не совпадает с ожиданием, то будут ошибки во время выполнения запросов.
-//    private static final String HBM2DDL_AUTO = "validate";
-//    private static final String HBM2DDL_AUTO = "update";
-//    private static final String HBM2DDL_AUTO = "create";
-//    private static final String HBM2DDL_AUTO = "create-drop";
+//    private static final String HBM2DDL_AUTO = "validate";        // Этот вариант не работает
+//    private static final String HBM2DDL_AUTO = "update";          // Этот вариант работает
+//    private static final String HBM2DDL_AUTO = "create";          // Этот вариант работает
+//    private static final String HBM2DDL_AUTO = "create-drop";     // Этот вариант работает
     private static final String HBM2DDL_AUTO = "none";
 
 
