@@ -3,7 +3,6 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;
@@ -114,12 +113,22 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = Util.getSessionFactory().openSession();
             session.beginTransaction();
+// Такой вариант некорректно работает и я его убрал
 //            User userDelete = session.load(User.class, id);;
-//            session.delete(userDelete);
+//            if (userDelete != null) {
+//                session.delete(userDelete);
+//            } else {
+//                System.out.println("Нет пользователя для удаления с id=" + id + "!");
+//            }
+// Это рабочий вариант
             User userDelete = session.get(User.class, id);;
-            session.remove(userDelete);
+            if (userDelete != null) {
+                session.remove(userDelete);
+            } else {
+                System.out.println("Нет пользователя для удаления с id=" + id + "!");
+            }
             session.getTransaction().commit();
-            System.out.println("User с id – " + id + " удален из базы данных");
+//            System.out.println("User с id – " + id + " удален из базы данных");
         } catch (Exception e) {
             System.out.println("Ошибка при удалении пользователя из таблицы по 'id'!");
 //            e.printStackTrace();
@@ -130,7 +139,7 @@ public class UserDaoHibernateImpl implements UserDao {
         } finally {
             if (session.isOpen()) {
                 session.close();
-                System.out.println("Сессия закрыта!");
+//                System.out.println("Сессия закрыта!");
             }
         }
     }
@@ -159,8 +168,9 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = Util.getSessionFactory().openSession();
             session.beginTransaction();
-//            usersResult = session.createQuery("FROM User", User.class).list();
-            usersResult = session.createQuery("FROM User", User.class).getResultList();
+            String hgl = "FROM User";
+//            usersResult = session.createQuery(hgl, User.class).list();
+            usersResult = session.createQuery(hgl, User.class).getResultList();
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println("Ошибка при получении списка пользователей из таблицы!");

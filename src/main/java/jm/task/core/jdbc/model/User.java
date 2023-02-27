@@ -13,13 +13,13 @@ import javax.persistence.GenerationType;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", updatable = false, nullable = false)
     private Long id;
-    @Column(name = "name")
+    @Column(name = "name", updatable = true, nullable = false)
     private String name;
-    @Column(name = "lastName")
+    @Column(name = "lastName", updatable = true, nullable = false)
     private String lastName;
-    @Column(name = "age")
+    @Column(name = "age", updatable = true, nullable = false)
     private Byte age;
 
     public User() {
