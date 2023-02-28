@@ -3,6 +3,7 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import org.hibernate.Session;
 
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 import static jm.task.core.jdbc.util.Util.getSessionFactory;
@@ -75,13 +76,28 @@ public class UserDaoHibernateImpl implements UserDao {
         }
     }
 
+//    // Обычный вариант - Ментор принял
+//    @Override
+//    public List<User> getAllUsers() {
+//        List<User> usersResult = null;
+//        try (Session session = getSessionFactory().openSession()) {
+//            session.beginTransaction();
+//            usersResult = session.createQuery("SELECT u FROM User u", User.class).getResultList();
+//            session.getTransaction().commit();
+//        } catch (Exception e) {
+//            System.out.println("Ошибка при получении списка пользователей из таблицы!");
+//            e.printStackTrace();
+//        }
+//        return usersResult;
+//    }
+
+    // Короткий вариант без транзакций - То что ментор запрашивал через "TypedQuery"
     @Override
     public List<User> getAllUsers() {
         List<User> usersResult = null;
         try (Session session = getSessionFactory().openSession()) {
-            session.beginTransaction();
-            usersResult = session.createQuery("SELECT u FROM User u", User.class).getResultList();
-            session.getTransaction().commit();
+            TypedQuery<User> typedQuery = session.createQuery("FROM User");
+            usersResult = typedQuery.getResultList();
         } catch (Exception e) {
             System.out.println("Ошибка при получении списка пользователей из таблицы!");
             e.printStackTrace();
